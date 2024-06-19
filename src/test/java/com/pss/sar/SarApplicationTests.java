@@ -8,6 +8,7 @@ class SarApplicationTests {
 
 	@Test
 	void contextLoads() {
+		
 	}
 
 }

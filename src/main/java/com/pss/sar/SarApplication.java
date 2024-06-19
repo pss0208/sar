@@ -16,6 +16,8 @@ import com.pss.sar.domain.Car;
 import com.pss.sar.domain.CarRepository;
 import com.pss.sar.domain.Owner;
 import com.pss.sar.domain.OwnerRepository;
+import com.pss.sar.domain.User;
+import com.pss.sar.domain.UserRepository;
 
 @SpringBootApplication
 @RestController
@@ -28,6 +30,8 @@ public class SarApplication implements CommandLineRunner{
 	private CarRepository repository;
 	@Autowired
 	private OwnerRepository ownerRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SarApplication.class, args);
@@ -46,13 +50,23 @@ public class SarApplication implements CommandLineRunner{
 		ownerRepository.saveAll(Arrays.asList(owner1, owner2));
 
 		//자동차 객체를 추가하고 소유자와 연결한 후 데이터베이스에 저장
-		repository.save(new Car("Ford", "Mustang", "Red", "ADF-1121", 2021, 59000, owner1));
-		repository.save(new Car("Nissan", "Leaf", "White", "SSJ-3002", 2019, 29000, owner2));
-		repository.save(new Car("Toyota", "Prius", "Silver", "KKO-0212", 2020, 39000, owner2));
+		// repository.save(new Car("Ford", "Mustang", "Red", "ADF-1121", 2021, 59000, owner1));
+		// repository.save(new Car("Nissan", "Leaf", "White", "SSJ-3002", 2019, 29000, owner2));
+		// repository.save(new Car("Toyota", "Prius", "Silver", "KKO-0212", 2020, 39000, owner2));
+		Car car1 = new Car("Ford", "Mustang", "Red", "ADF-1121", 2021, 59000, owner1);
+		Car car2 = new Car("Nissan", "Leaf", "White", "SSJ-3002", 2019, 29000, owner2);
+		Car car3 = new Car("Toyota", "Prius", "Silver", "KKO-0212", 2020, 39000, owner2);
+		repository.saveAll(Arrays.asList(car1, car2, car3));
 
 		for (Car car : repository.findAll()) {
 			logger.info(car.getBrand() + " " + car.getModel());
 		}
+
+		//사용자 이름: user, 암호: user
+		userRepository.save(new User("user",
+		"$2a$10$NVM0n8ElaRgg7zWO1CxUdei7vWoPg91Lz2aYavh9.f9q0e4bRadue", "USER"));
+		userRepository.save(new User("admin",
+		"$2a$10$8cjz47bjbR4Mn8Mg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW", "ADMIN"));
 	} 
 
 }
